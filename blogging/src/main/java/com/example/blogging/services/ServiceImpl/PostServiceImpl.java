@@ -32,6 +32,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private CategoryRepo categoryRepo;
 
+//    To create new post
     @Override
     public PostDto createPost(PostDto postDto, Integer userId, Integer categoryId) {
 
@@ -49,31 +50,43 @@ public class PostServiceImpl implements PostService {
 
     }
 
+//    This is for update the post
     @Override
-    public Post updatePost(PostDto postDto, Integer postId) {
-        return null;
+    public PostDto updatePost(PostDto postDto, Integer postId) {
+        Post posts = postRepo.findById(postId).orElseThrow(() -> new ResourseNotFoundException("Post", "PostId", postId));
+        posts.setTitle(postDto.getTitle());
+        posts.setContent(postDto.getContent());
+        posts.setImage(postDto.getImageName());
+        Post updatedPost = postRepo.save(posts);
+        return modelMapper.map(updatedPost,PostDto.class);
     }
 
+//    To delete the post by Id
     @Override
-    public Post detetePost(Integer postId) {
-        return null;
+    public void detetePost(Integer postId) {
+        Post posts = postRepo.findById(postId).orElseThrow(() -> new ResourseNotFoundException("Post", "PostId", postId));
+        postRepo.delete(posts);
     }
 
+//    To get all the posts
     @Override
     public List<PostDto> getAllPost() {
         List<Post> allPosts = postRepo.findAll();
         List<PostDto> postDtos = allPosts.stream()
                 .map(post -> modelMapper.map(post, PostDto.class)) // Corrected mapping
                 .collect(Collectors.toList());
-
         return postDtos;
     }
 
+//  Getting post by Id
     @Override
-    public Post getPostById(Integer postId) {
-        return null;
+    public PostDto getPostById(Integer postId) {
+        Post posts = postRepo.findById(postId).orElseThrow(() -> new ResourseNotFoundException("Post", "PostId", postId));
+        PostDto  postDto = modelMapper.map(posts,PostDto.class);
+        return postDto;
     }
 
+//    Getting posts by Category
     @Override
     public List<PostDto> getPostByCategory(Integer categoryId) {
         Category category = categoryRepo.findById(categoryId).orElseThrow(() -> new ResourseNotFoundException("Category", "CategoryId", categoryId));
@@ -84,7 +97,7 @@ public class PostServiceImpl implements PostService {
         return postDtos;
     }
 
-
+//  Getting posts by user
     @Override
     public List<PostDto> getPostByUser(Integer userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new ResourseNotFoundException("User", "UserId", userId));
@@ -96,6 +109,7 @@ public class PostServiceImpl implements PostService {
         return postDtos;
     }
 
+//   To search the post
     @Override
     public List<Post> searchPosts(String keyword) {
         return null;
