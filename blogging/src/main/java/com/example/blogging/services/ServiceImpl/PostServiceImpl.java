@@ -45,13 +45,13 @@ public class PostServiceImpl implements PostService {
         Category category = this.categoryRepo.findById(categoryId).orElseThrow(() -> new ResourseNotFoundException("Category", "Category Id", categoryId));
 
         Post post = modelMapper.map(postDto, Post.class);
-        post.setImage("default.png");
+        post.setImageName("default.png");
         post.setDate(new Date());
         post.setUser(user);
         post.setCategory(category);
 
         Post createdPost =  postRepo.save(post);
-        return modelMapper.map(post, PostDto.class);
+        return modelMapper.map(createdPost, PostDto.class);
 
     }
 
@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
         Post posts = postRepo.findById(postId).orElseThrow(() -> new ResourseNotFoundException("Post", "PostId", postId));
         posts.setTitle(postDto.getTitle());
         posts.setContent(postDto.getContent());
-        posts.setImage(postDto.getImageName());
+        posts.setImageName(postDto.getImageName());
         Post updatedPost = postRepo.save(posts);
         return modelMapper.map(updatedPost,PostDto.class);
     }
@@ -109,7 +109,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Integer postId) {
         Post posts = postRepo.findById(postId).orElseThrow(() -> new ResourseNotFoundException("Post", "PostId", postId));
-        PostDto  postDto = modelMapper.map(posts,PostDto.class);
+        PostDto postDto = modelMapper.map(posts,PostDto.class);
         return postDto;
     }
 
@@ -145,4 +145,5 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
         return postDtos;
     }
+
 }

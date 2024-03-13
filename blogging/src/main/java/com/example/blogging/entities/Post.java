@@ -20,7 +20,7 @@ public class Post {
     @Column(name = "post_title",length = 100, nullable = false)
     private String title;
     private String content;
-    private String Image;
+    private String imageName;
     private Date date;
 
     @ManyToOne
