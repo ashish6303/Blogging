@@ -63,7 +63,7 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPost() {
         List<Post> allPosts = postRepo.findAll();
         List<PostDto> postDtos = allPosts.stream()
-                .map(post -> modelMapper.map(post, PostDto.class)) // Corrected mapping test push
+                .map(post -> modelMapper.map(post, PostDto.class)) // Corrected mapping
                 .collect(Collectors.toList());
 
         return postDtos;
