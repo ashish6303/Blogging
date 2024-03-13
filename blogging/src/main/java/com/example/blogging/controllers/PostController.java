@@ -1,5 +1,6 @@
 package com.example.blogging.controllers;
 
+import com.example.blogging.config.AppConstant;
 import com.example.blogging.entities.Post;
 import com.example.blogging.payloads.ApiResponse;
 import com.example.blogging.payloads.PostDto;
@@ -48,9 +49,14 @@ public class PostController {
 
 //    Getting all post
     @GetMapping("/allPosts")
-    public ResponseEntity<?> getAllPosts()
+    public ResponseEntity<?> getAllPosts(
+            @RequestParam(value = "pageNumber", defaultValue = AppConstant.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstant.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstant.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstant.SORT_DIR, required = false) String sortDir
+            )
     {
-        return ResponseEntity.ok(postService.getAllPost());
+        return ResponseEntity.ok(postService.getAllPost(pageNumber, pageSize, sortBy, sortDir));
     }
 
 //   Getting post by id
@@ -75,4 +81,11 @@ public class PostController {
         return new ResponseEntity<>(updatedPost, HttpStatus.OK);
     }
 
+    @GetMapping("/posts/search/{keyword}")
+    public ResponseEntity<?> searchPosts(
+            @PathVariable ("keyword") String keyword
+    ){
+        List<PostDto> searchPost = postService.searchPosts(keyword);
+        return new ResponseEntity<>(searchPost, HttpStatus.OK);
+    }
 }

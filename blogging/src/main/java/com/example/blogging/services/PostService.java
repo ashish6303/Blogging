@@ -2,6 +2,7 @@ package com.example.blogging.services;
 
 import com.example.blogging.entities.Post;
 import com.example.blogging.payloads.PostDto;
+import com.example.blogging.payloads.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface PostService {
 
     void detetePost(Integer postId);
 
-    List<PostDto> getAllPost();
+    PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 
     PostDto getPostById(Integer postId);
 
@@ -23,7 +24,7 @@ public interface PostService {
 
     List<PostDto> getPostByUser(Integer userId);
 
-    List<Post> searchPosts(String keyword);
+    List<PostDto> searchPosts(String keyword);
 
 }
 
