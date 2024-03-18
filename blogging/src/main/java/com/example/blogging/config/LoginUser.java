@@ -13,23 +13,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 public class LoginUser {
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails1 = User.builder()
-                .username("user1")
-                .password(passwordEncoder().encode("password"))
-                .roles("ADMIN")
-                .build();
 
-        UserDetails userDetails2 = User.builder()
-                .username("user2")
-                .password(passwordEncoder().encode("password"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails1,userDetails2);
-
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails userDetails1 = User.builder()
+//                .username("user1")
+//                .password(passwordEncoder().encode("password"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        UserDetails userDetails2 = User.builder()
+//                .username("user2")
+//                .password(passwordEncoder().encode("password"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(userDetails1,userDetails2);
+//
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

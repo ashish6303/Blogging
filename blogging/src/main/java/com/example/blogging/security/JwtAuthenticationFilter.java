@@ -1,5 +1,7 @@
 package com.example.blogging.security;
 
+import com.example.blogging.entities.User;
+import com.example.blogging.services.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -76,7 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             //fetch user detail from username
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userService.loadUserByUsername(username);
             Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
             if (validateToken) {
 

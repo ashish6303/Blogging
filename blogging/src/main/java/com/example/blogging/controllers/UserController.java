@@ -18,42 +18,37 @@ public class UserController {
     private UserService userService;
 
 
-//  Creation of new user
+    //  Creation of new user
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto)
-    {
-        UserDto createUserDto = userService.createUser(userDto);
-        return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
+        ResponseEntity<?> response = userService.createUser(userDto);
+        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
     }
 
-// Updating the user
+    // Updating the user
     @PutMapping("/update/{userId}")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId)
-    {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId) {
         UserDto updatedUser = userService.updateUser(userDto, userId);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-//   Deleting User
+    //   Deleting User
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Integer userId)
-    {
+    public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
         userService.deleteUser(userId);
-        return new ResponseEntity<>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK );
+        return new ResponseEntity<>(new ApiResponse("User Deleted Successfully", true), HttpStatus.OK);
     }
 
-//    Getting All User
+    //    Getting All User
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAllUser(){
+    public ResponseEntity<?> getAllUser() {
         return ResponseEntity.ok(userService.getAllUser());
     }
 
     @GetMapping("/getById/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable Integer userId)
-    {
+    public ResponseEntity<?> getUserById(@PathVariable Integer userId) {
         return ResponseEntity.ok(this.userService.getUserById(userId));
     }
-
 
 
 }
